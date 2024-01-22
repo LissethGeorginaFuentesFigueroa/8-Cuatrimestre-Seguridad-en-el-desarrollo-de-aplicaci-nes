@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculador de indice de masa corporal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="mt-5">Calculador de IMC</h1>
+    <div class="row">
+      <div class="col">
+        <form>
+          <div class="mb-3 mt-5">
+            <label for="weigth" class="form-label">Peso</label>
+            <input type="number" class="form-control" id="weight" placeholder="34 kg..." oninput="getData()" />
+            <div id="help" class="form-text text-danger">
+              Ingresa tu peso en kilogramos
+            </div>
+            <div id="weigthHelp" class="form-text text-danger"></div>
+          </div>
+          <div class="mb-3">
+            <label for="heigth" class="form-label">Altura</label>
+            <input type="number" class="form-control" id="heigth" placeholder="1.78 m..." oninput="getData()" />
+            <div id="help" class="form-text text-danger">
+              Ingresa tu altura en metros
+            </div>
+            <div id="heigthHelp" class="form-text text-danger"></div>
+          </div>
+        </form>
+        <button class="btn btn-primary" disabled id="btnIMC" onclick="calculateIMC()">
+          Calcular IMC
+        </button>
+        <button class="btn btn-danger" disabled id="btnRemove" onclick="removeData()">
+          Remover datos
+        </button>
+      </div>
+      <div class="col" id="indicador">
+        <h3 class="mx-5">Indicador de masa corporal</h3>
+        <ul class="list-group mt-5 mx-5">
+          <li class="list-group-item" id="bajoPeso">Peso Bajo</li>
+          <li class="list-group-item" id="pesoNormal">Peso normal</li>
+          <li class="list-group-item" id="sobrePeso">Sobrepeso</li>
+          <li class="list-group-item" id="obesidad">Obesidad</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script>
+    let btn = document.getElementById("btnIMC");
+    let weigthInput = document.getElementById("weight");
+    let heigthInput = document.getElementById("heigth");
+    let weigthHelp = document.getElementById("weigthHelp");
+    let heigthHelp = document.getElementById("heigthHelp");
+    let btnRemove = document.getElementById("btnRemove");
+    var heigth
+    var weight
+    var inputIMC
+    var inputClass
+    var imc
+
+    const removeData=()=>{
+      heigth=0
+      weight=0
+      weigthInput.value=0
+      heigthInput.value=0
+      inputIMC.classList.remove(inputClass);
+      btnRemove.disabled=true
+      btn.disabled=true
+      imc=0
+
+    }
+
+    const validationRemove=()=>{
+      console.log('entra en validation');
+      if((!weigthInput.value.trim() != "" || !heigthInput.value.trim() != "") || imc<0){
+        btnRemove.disabled=true
+      }else{
+        btnRemove.disabled=false
+      }
+    }
+
+    const getData = () => {
+      heigth = heigthInput.value;
+      weight = weigthInput.value;
+      validationButton()
+      validationHeigth()
+      validationWeigth()
+      validationRemove()
+    };
+
+    const validationWeigth= () => {
+      if(weight <=0){
+        heigthHelp.innerHTML='La altura no puede de ser negativa'
+      }else{
+        console.log('entra en else de weigth',weight);
+        heigthHelp.innerHTML=''
+      }
+    }
+
+    const validationHeigth= () => {
+      if(heigth <=0){
+        weigthHelp.innerHTML='El peso no puede ser negativo' 
+      }else{
+        console.log('entra en el else de heigth',heigth);
+        weigthHelp.innerHTML='' 
+      }
+
+    }
+
+    const validationButton = () => {
+      if ((!weigthInput.value.trim() != "" || !heigthInput.value.trim() != "") || (heigth <=0 || weight <=0) ) {
+        btn.disabled = true;
+      } else {
+        btn.disabled = false;
+      }
+    };
+
+    const calculateIMC = () => {
+      if ((weight != null && heigth != null) && (weight > 0 && heigth > 0)) {
+        imc = weight / (heigth * heigth);
+        console.log(imc);
+        if (imc < 18.4) {
+          inputIMC = document.getElementById("bajoPeso");
+          inputClass='text-bg-warning'
+        } else if (imc > 18.5 && imc < 24.9) {
+          inputIMC = document.getElementById("pesoNormal");
+          inputClass='text-bg-success'
+        } else if (imc > 25 && imc < 29.9) {
+          inputIMC = document.getElementById("sobrePeso");
+          inputClass='text-bg-info'
+        } else if (imc > 30) {
+          inputIMC = document.getElementById("obesidad");
+          inputClass='text-bg-danger'
+        }
+      } else {
+        console.log("entro aca");
+      }
+      console.log(inputClass);
+      console.log(inputIMC);
+      inputIMC.classList.add(inputClass);
+    };
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
