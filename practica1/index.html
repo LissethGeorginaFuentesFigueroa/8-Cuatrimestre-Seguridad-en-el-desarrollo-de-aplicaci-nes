@@ -47,11 +47,16 @@
               <div id="heigthHelp" class="form-text text-danger"></div>
             </div>
           </form>
-          <button class="btn btn-primary" disabled id="btnIMC" onclick="calculateIMC()">
+          <button
+            class="btn btn-primary"
+            disabled
+            id="btnIMC"
+            onclick="calculateIMC()"
+          >
             Calcular IMC
           </button>
         </div>
-        <div class="col border" id="indicador">
+        <div class="col" id="indicador">
           <h3 class="mx-5">Indicador de masa corporal</h3>
           <ul class="list-group mt-5 mx-5">
             <li class="list-group-item" id="bajoPeso">Peso Bajo</li>
@@ -68,32 +73,23 @@
       let heigthInput = document.getElementById("heigth");
 
       const getData = () => {
-        var heigth = heigthInput.value;
-        var weight = weigthInput.value;
-        validation()
+        weigthInput = document.getElementById("weight").value;
+        heigthInput = document.getElementById("heigth").value;
       };
 
       const validation = () => {
-        if (
-          !weigthInput.value.trim() != "" ||
-          !heigthInput.value.trim() != ""
-        ) {
+        if (!weigthInput.trim() != "" || !heigthInput.trim() != "") {
           console.log("entra aca");
-          btn.disabled = true;
-        } else {
           btn.disabled = false;
+        } else {
+          btn.disabled = true;
           console.log("entra aqui");
         }
       };
 
       const calculateIMC = () => {
-        console.log(weight, " ", heigth, "**");
-        if (
-          weight!= null &&
-          heigth != null &&
-          weight > 0 &&
-          heigth > 0
-        ) {
+        console.log(weigthInput, " ", heigthInput, "**");
+        if ((weight != null && heigth != null) || (weight > 0 && heigth > 0)) {
           let imc = weight / (heigth * heigth);
           console.log(imc);
           if (imc < 18.4) {
